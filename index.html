@@ -461,6 +461,59 @@
   }
 </style>
 </head>
+<style>
+  #gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #070c1a;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 24px;
+  }
+  #gate.hidden { display: none; }
+  .gate-logo { font-size: 13px; font-weight: 700; letter-spacing: 4px; color: #c9a84c; text-transform: uppercase; margin-bottom: 8px; }
+  .gate-title { font-size: 22px; font-weight: 700; color: #f0f4ff; letter-spacing: 1px; }
+  .gate-input {
+    padding: 14px 20px; border: 1px solid rgba(201,168,76,0.3);
+    background: rgba(255,255,255,0.04); color: #f0f4ff;
+    font-size: 16px; font-family: inherit; letter-spacing: 3px;
+    outline: none; width: 260px; text-align: center;
+    border-radius: 2px; transition: border 0.2s;
+  }
+  .gate-input:focus { border-color: #c9a84c; }
+  .gate-btn {
+    padding: 14px 40px; background: #c9a84c; color: #070c1a;
+    font-size: 13px; font-weight: 800; letter-spacing: 3px;
+    text-transform: uppercase; border: none; cursor: pointer;
+    font-family: inherit; border-radius: 2px; transition: opacity 0.2s;
+  }
+  .gate-btn:hover { opacity: 0.85; }
+  .gate-error { font-size: 13px; color: #e05555; letter-spacing: 1px; min-height: 18px; }
+</style>
+
+<div id="gate">
+  <div class="gate-logo">Safra × Lobo</div>
+  <div class="gate-title">Acesso Restrito</div>
+  <input class="gate-input" id="gateInput" type="password" placeholder="Senha" autofocus />
+  <button class="gate-btn" onclick="checkGate()">Entrar</button>
+  <div class="gate-error" id="gateError"></div>
+</div>
+
+<script>
+  function checkGate() {
+    const val = document.getElementById('gateInput').value.trim().toLowerCase();
+    if (val === 'safra') {
+      document.getElementById('gate').classList.add('hidden');
+    } else {
+      const err = document.getElementById('gateError');
+      err.textContent = 'Senha incorreta.';
+      document.getElementById('gateInput').value = '';
+      setTimeout(() => err.textContent = '', 2000);
+    }
+  }
+  document.getElementById('gateInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkGate();
+  });
+</script>
+
 <body>
 
 <div id="progress-bar"></div>
